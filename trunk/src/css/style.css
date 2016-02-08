@@ -1,3 +1,6 @@
+/**
+* disabled stylesheet document.styleSheets.item(0).disabled = false
+*/
 #Content {
 	/*text-align: center;*/
 }
@@ -26,4 +29,10 @@
 .errors {
 	height: 75px;
 	overflow-y: auto;
+}
+
+@media ( max-width: 600px ) {
+	body {
+		background-color: red;
+	}
 }
