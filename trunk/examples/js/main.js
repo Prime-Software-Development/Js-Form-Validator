@@ -5,14 +5,19 @@ requirejs.config({
 	baseUrl: 'examples/js',
 	paths: {
 		jquery: '/lib/jquery-2.2.0',
-		validator: '/src/js/validator',
-		methods: '/src/js/additional-methods',
 
 		home: '/examples/js/home'
-	}
+	},
+	packages: [
+		{
+			name: "validator",
+			location: '/src/js/',
+			main: 'validator'
+		}
+	]
 });
 
-requirejs( [ 'jquery', 'validator', 'home' ], function ( $, validator, home ) {
+requirejs( [ 'jquery', 'home' ], function ( $ ) {
 	/*$(document ).ready(function(){
 		home.init();
 	});*/

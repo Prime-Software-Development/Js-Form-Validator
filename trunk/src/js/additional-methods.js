@@ -8,7 +8,7 @@
  */
 (function( factory ) {
 	if ( typeof define === "function" && define.amd ) {
-		define( ["jquery", "validator" ], factory );
+		define( ["jquery", "./core" ], factory );
 	} else {
 		factory( jQuery );
 	}
