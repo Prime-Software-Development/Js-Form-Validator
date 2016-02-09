@@ -1,7 +1,7 @@
 /**
  * Created by trunk on 18/01/16.
  */
-define(['jquery' ,'validator', 'methods' ], function( $ ) {
+define(['jquery' ,'validator' ], function( $ ) {
 
 	var home = {
 		init: function(){
@@ -9,10 +9,12 @@ define(['jquery' ,'validator', 'methods' ], function( $ ) {
 			$('.validate').on('click',function(event) {
 				var $button = $( this );
 
-				var validator = $button.closest('form' ).validator({ framework: "plain" });
+				var validator = $button.closest('form').validator({ framework: "plain" });
 
 				$('.form-errors').text( validator.validate().hasErrors() +"" );
 			});
+
+			console.log( "hello click" );
 
 		}
 	};
