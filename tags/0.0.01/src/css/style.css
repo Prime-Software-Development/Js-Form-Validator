@@ -1,0 +1,38 @@
+/**
+* disabled stylesheet document.styleSheets.item(0).disabled = false
+*/
+#Content {
+	/*text-align: center;*/
+}
+.page-header {
+	text-align: center;
+}
+.form .buttons {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.form .error {
+	border-color: red;
+}
+.form-group {
+	display: inline-block;
+	min-height: 100px;
+	width: 30%;
+}
+.form-group label {
+	display: block;
+}
+.buttons {
+	text-align: right;
+}
+.errors {
+	height: 75px;
+	overflow-y: auto;
+}
+
+@media ( max-width: 600px ) {
+	body {
+		background-color: red;
+	}
+}
