@@ -10,9 +10,9 @@ requirejs.config({
 	},
 	packages: [
 		{
-			name: "validator",
+			name    : "validator",
 			location: '/src/js/',
-			main: 'validator'
+			main    : 'validator'
 		}
 	]
 });
