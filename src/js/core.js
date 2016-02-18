@@ -836,11 +836,13 @@
 
 					var methods = $.fn.validator.rules.attr[ attribute_name ];
 
-					$.each( methods, function(method_name, value ){
-						methods[ method_name ] = normalized_value;
-					});
+					if( methods ) {
+						$.each( methods, function(method_name, value ){
+							methods[ method_name ] = normalized_value;
+						});
 
-					$.extend( results, methods );
+						$.extend( results, methods );
+					}
 				}
 			}
 
