@@ -17,7 +17,8 @@
 	},
 	"extra": {
 		"component": {
-			"scripts": [
+			"name": "trunk-plugins",
+			"files": [
 				"src/js/validator.js",
 				"src/js/core.js",
 				"src/js/additional-methods.js"
