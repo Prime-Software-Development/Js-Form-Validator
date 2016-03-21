@@ -142,13 +142,18 @@
 		framework: 'bootstrap',
 		// Form element selectors
 		selectors: {
-			elements    : 'input, select, textarea, button',
-			ignore      : '[name=""], [type=submit], [type=hidden], [type=button], button',
-			exclude     : '',
-			visible     : ':visible',
-			enabled     : ':enabled',
+			// select these elements for validation
+			elements    : [ 'input', 'select', 'textarea', 'button' ],
+			// ignore these elements when validating
+			ignore      : [ '[name=""]', '[type=submit]', '[type=hidden]', '[type=button]', 'button', '.novalidate' ],
+			// exclude all elements within these container elements
+			exclude     : ['.novalidate'],
+			// select only visible
+			visible     : [':visible'],
+			// select only enabled
+			enabled     : [':enabled'],
 			// filter elements matching this selector $( selection ).not( ':hidden' )
-			hidden      : ':hidden'
+			hidden      : [':hidden']
 		},
 		// Error messages by element name
 		messages: {},
@@ -327,7 +332,7 @@
 		bootstrap: {
 			settings: {
 				// Hidden form controls will be validated for the given containers
-				hidden_containers: ".tab-pane",
+				hidden_containers: [".tab-pane"],
 				selectors: {
 					group: '.form-group',
 					error_block: '.help-block.with-errors',
@@ -391,7 +396,7 @@
 			}
 		},
 		plain: {
-			settings: { hidden_containers: "" },
+			settings: { hidden_containers: [] },
 			showFieldErrors: function( element, errors ) {
 				var _this = this, $element = $( element ),
 				    $errors = $element.next('.errors');
@@ -994,10 +999,10 @@
 			var selector = _this.settings.selectors;
 
 			return $form
-				.find( selector.elements )
-				.not( selector.ignore )
-				.filter( selector.enabled )
-				.filter( selector.visible );
+				.find( selector.elements.join(',') )
+				.not( selector.ignore.join(',') )
+				.filter( selector.enabled.join(',') )
+				.filter( selector.visible.join(',') );
 		},
 
 		/**
@@ -1007,10 +1012,17 @@
 		getHiddenElements: function( $element ) {
 			var _this = this;
 			var selector = _this.settings.selectors;
+			var framework = _this.framework.settings;
 
-			return $element
-				.find( _this.framework.settings.hidden_containers )
-				.find( selector.elements )
+			var $results =  $element
+				.find( framework.hidden_containers.join(',') )
+				.find( selector.elements.join(',') );
+
+			$.each( selector.exclude ,function( index, value ){
+				$results = $results.not( selector.exclude + " " + selector.elements );
+			});
+
+			return $results
 				.not( selector.ignore )
 				.filter( selector.enabled )
 				.filter( selector.hidden );
