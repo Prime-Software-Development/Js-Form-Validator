@@ -1018,14 +1018,19 @@
 				.find( framework.hidden_containers.join(',') )
 				.find( selector.elements.join(',') );
 
-			$.each( selector.exclude ,function( index, value ){
-				$results = $results.not( selector.exclude + " " + selector.elements );
+			// ignore form elements within these containers
+			$.each( selector.exclude ,function( index, container ){
+				$.each( selector.elements, function(index2, element ){
+					$results = $results.not( container + " " + element );
+				});
 			});
 
-			return $results
-				.not( selector.ignore )
-				.filter( selector.enabled )
-				.filter( selector.hidden );
+			$results = $results
+				.not( selector.ignore.join(',') )
+				.filter( selector.enabled.join(',') )
+				.filter( selector.hidden.join(',') );
+
+			return $results;
 		},
 
 		// Get all attributes for an element
