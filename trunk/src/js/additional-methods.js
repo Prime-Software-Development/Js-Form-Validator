@@ -1,18 +1,4 @@
-/*!
- * jQuery Validation Plugin v1.14.0
- *
- * http://jqueryvalidation.org/
- *
- * Copyright (c) 2015 Jörn Zaefferer
- * Released under the MIT license
- */
-(function( factory ) {
-	if ( typeof define === "function" && define.amd ) {
-		define( ["jquery", "./core" ], factory );
-	} else {
-		factory( jQuery );
-	}
-}(function( $ ) {
+define(['./core'],function() {
 
 	(function() {
 
@@ -203,4 +189,4 @@
 		return this.optional(element) || /^((0?[1-9]|1[012])(:[0-5]\d){1,2}(\ ?[AP]M))$/i.test(value);
 	}, "Please enter a valid time in 12-hour am/pm format");
 
-}));
+});

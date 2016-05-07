@@ -1,3 +1,6 @@
-define(['jquery', './core', './additional-methods'], function(){
+define([
+	'./core',
+	'./additional-methods'
+], function(){
 
 });
