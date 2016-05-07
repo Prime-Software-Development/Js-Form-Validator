@@ -19,9 +19,7 @@
 		"component": {
 			"name": "trunk-validator",
 			"files": [
-				"src/js/validator.js",
-				"src/js/core.js",
-				"src/js/additional-methods.js"
+				"dist/validator.js"
 			]
 		}
 	}
