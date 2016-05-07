@@ -1,0 +1,28 @@
+{
+	"name": "Trunk/js-form-validator",
+	"description": "A form validator for Bootstrap ( or custom ) framework",
+	"license": "Apache-2.0",
+	"keywords": [
+		"form",
+		"validator"
+	],
+	"authors": [
+		{
+			"name": "Narvydas Mekionis",
+			"email": "nm@trunknetworks.com"
+		}
+	],
+	"type": "component",
+	"require": {
+	},
+	"extra": {
+		"component": {
+			"name": "trunk-validator",
+			"files": [
+				"src/js/validator.js",
+				"src/js/core.js",
+				"src/js/additional-methods.js"
+			]
+		}
+	}
+}
