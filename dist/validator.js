@@ -1,7 +1,7 @@
 /*!
  * Validator Jquery JavaScript Library plugin v0.0.0
  *
- * Date: 2016-05-10T14:42Z
+ * Date: 2016-05-10T15:41Z
  */
 
 define(['jquery'], function($) {
@@ -12,17 +12,35 @@ define(['jquery'], function($) {
 	 * @returns {*}
 	 */
 	$.fn.validator = function( options ) {
+		var validator = $.fn.validator;
 
 		this.each(function() {
 			var form = this;
+			var $form = $( this );
 
 			// No validator
-			if( !  $.data( form , $.fn.validator.settings.validator ) ) {
+			if( !  $.data( form , validator.settings.validator ) ) {
 				// Do a deep copy of the options - http://api.jquery.com/jQuery.extend/
-				var settings = $.extend(true, {}, $.fn.validator.defaults, $.data( form ), options );
+				var settings = $.extend(true, {}, validator.defaults, $.data( form ), options );
+				var framework_settings = settings.framework;
+
+				// init framework options from data- tags
+				// WARNING: data tag options have priority
+				$.each( validator.settings.framework, function( index, tag_name ){
+					var value = $form.data( tag_name );
+					if( undefined !== value ) {
+						framework_settings[ index ] = value;
+					}
+				});
+
+				// get framework object
+				var framework = $.extend( {}, default_frameworks[ settings.framework.id ] );
+				// set framework settings
+				$.extend( framework.settings, framework_settings );
+				settings.framework = framework;
 
 				// Also save the instance so it can be accessed later to use methods/properties etc
-				$.data( form, $.fn.validator.settings.validator, new Validator(form, settings) );
+				$.data( form, validator.settings.validator, new Validator(form, settings) );
 			}
 
 		});
@@ -131,10 +149,20 @@ define(['jquery'], function($) {
 		}
 	};
 
+	$.fn.validator.getOption = function( name ) {
+		if( undefined === name )
+			return $.fn.validator.settings;
+
+	};
+
 	// Expose defaults and Constructor (allowing overriding of prototype methods for example)
 	$.fn.validator.settings = {
 		// data selector
-		validator: "trunk.validator"
+		validator: "trunk.validator",
+		framework: {
+			id: "framework",
+			hidden_containers: "hidden-containers"
+		}
 	};
 	$.fn.validator.defaults = {
 		framework: {
@@ -160,9 +188,6 @@ define(['jquery'], function($) {
 		// Data attribute names
 		attribute_names: {
 			errors: "trunk.validator.errors"
-		},
-		// Called after validate if form is invalid
-		formInvalid: function() {
 		}
 	};
 	$.fn.validator.methods = {
@@ -437,6 +462,8 @@ define(['jquery'], function($) {
 		// Full Form validation has not been run yet
 		this.is_first_validation = true;
 
+		this.framework = options.framework;
+
 		this.init();
 	}
 
@@ -472,13 +499,6 @@ define(['jquery'], function($) {
 			// Add aria-required to any Static/Data/Class required fields before first validation
 			// Screen readers require this attribute to be present before the initial submission http://www.w3.org/TR/WCAG-TECHS/ARIA2.html
 			$( this.$form ).find( "[required], [data-rule-required], .required" ).attr( "aria-required", "true" );
-
-			// get defaults settings for requested UI framework
-			var framework = $.extend( {}, default_frameworks[ this.settings.framework.id || "bootstrap" ] );
-			// merge default settings with user settings
-			$.extend( framework.settings, this.settings.framework );
-			// Init UI framework
-			this.framework = framework;
 
 			// Field modified event
 			this.$form
