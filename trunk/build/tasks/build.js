@@ -264,6 +264,10 @@ module.exports = function( grunt ) {
 			}
 			config.include = included;
 
+			//minify
+
+			config.optimize = this.data.optimize || 'none';
+
 			/**
 			 * Handle Final output from the optimizer
 			 * @param {String} compiled

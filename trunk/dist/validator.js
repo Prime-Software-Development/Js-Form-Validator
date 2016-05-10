@@ -1,7 +1,7 @@
 /*!
  * Validator Jquery JavaScript Library plugin v0.0.0
  *
- * Date: 2016-05-07T16:11Z
+ * Date: 2016-05-10T14:42Z
  */
 
 define(['jquery'], function($) {
@@ -137,7 +137,9 @@ define(['jquery'], function($) {
 		validator: "trunk.validator"
 	};
 	$.fn.validator.defaults = {
-		framework: 'bootstrap',
+		framework: {
+			id: 'bootstrap'
+		},
 		// Form element selectors
 		selectors: {
 			// select these elements for validation
@@ -471,8 +473,12 @@ define(['jquery'], function($) {
 			// Screen readers require this attribute to be present before the initial submission http://www.w3.org/TR/WCAG-TECHS/ARIA2.html
 			$( this.$form ).find( "[required], [data-rule-required], .required" ).attr( "aria-required", "true" );
 
+			// get defaults settings for requested UI framework
+			var framework = $.extend( {}, default_frameworks[ this.settings.framework.id || "bootstrap" ] );
+			// merge default settings with user settings
+			$.extend( framework.settings, this.settings.framework );
 			// Init UI framework
-			this.framework = default_frameworks[ this.settings.framework || "bootstrap" ];
+			this.framework = framework;
 
 			// Field modified event
 			this.$form
@@ -1018,6 +1024,10 @@ define(['jquery'], function($) {
 			var _this = this;
 			var selector = _this.settings.selectors;
 			var framework = _this.framework.settings;
+
+			// no containers provided ignore this whole step
+			if( !framework.hidden_containers || !framework.hidden_containers.length )
+				return [];
 
 			var $results =  $element
 				.find( framework.hidden_containers.join(',') )

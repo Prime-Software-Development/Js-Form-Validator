@@ -15,7 +15,11 @@ module.exports = function( grunt ) {
 				// Exclude specified modules if the module matching the key is removed
 				removeWith: {
 				}
-			}
+			},
+			/*min: {
+				dest: "dist/validator.min.js",
+				optimize: "uglify"
+			}*/
 		},
 		jshint: {
 			all: {
@@ -42,5 +46,5 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( "dev", [ "build:*:*", "lint" ] );
 
-	grunt.registerTask( "default", [ "dev" ] );
+	grunt.registerTask( "default", [ "lint", "dev" ] );
 };

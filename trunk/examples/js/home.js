@@ -6,15 +6,15 @@ define(['jquery' ,'validator' ], function( $ ) {
 	var home = {
 		init: function(){
 
+
+
 			$('.validate').on('click',function(event) {
 				var $button = $( this );
 
-				var validator = $button.closest('form').validator({ framework: "plain" });
+				var validator = $button.closest('form').validator();
 
 				$('.form-errors').text( validator.validate().hasErrors() +"" );
 			});
-
-			console.log( "hello click" );
 
 		}
 	};
