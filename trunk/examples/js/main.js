@@ -12,8 +12,8 @@ requirejs.config({
 	packages: [
 		{
 			name    : "validator",
-			location: '/src/js',
-			//location: '/dist',
+			//location: '/src/js',
+			location: '/dist',
 			main    : 'validator'
 		}
 	]
