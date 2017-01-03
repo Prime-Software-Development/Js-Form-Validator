@@ -291,7 +291,12 @@ define(['jquery'], function($) {
 				return this.getLength( value, element ) >= min_length;
 			}
 			return value.length >= min_length;
-		}
+		},
+
+		typeahead_required: function( value, element, options ) {
+			var $element = $( element );
+			return typeof $element.data( 'selected_id' ) !== 'undefined';
+		},
 	};
 
 	$.fn.validator.rules = {
@@ -305,7 +310,8 @@ define(['jquery'], function($) {
 			integer : { integer: true },
 			mobileUK: { mobileUK: true },
 			time    : { time: true },
-			digits  : { digits: true }
+			digits  : { digits: true },
+			typeahead_required: { typeahead_required: true },
 		},
 		// <input type="email", required min="10"/>
 		// input type will be checked against these names as well
@@ -346,7 +352,8 @@ define(['jquery'], function($) {
 		rangelength: $.fn.validator.format( "Please enter a value between {0} and {1} characters long." ),
 		range      : $.fn.validator.format( "Please enter a value between {0} and {1}." ),
 		max        : $.fn.validator.format( "Please enter a value less than or equal to {0}." ),
-		min        : $.fn.validator.format( "Please enter a value greater than or equal to {0}." )
+		min        : $.fn.validator.format( "Please enter a value greater than or equal to {0}." ),
+		typeahead_required  : "Please select an option from the dropdown list.",
 	};
 
 	/* END plugin */
