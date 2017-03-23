@@ -1,31 +1,36 @@
 define([],function(){
 
+	var Event = {
+		INVALID: 'invalid.ts.validator',
+		VALID: 'valid.ts.validator'
+	};
+
 	/**
 	 * Validator plugin definition
 	 * @param option
 	 * @returns {*}
 	 */
-	$.fn.validator = function( options ) {
+	$.fn.validator = function ( options ) {
 		var validator = $.fn.validator;
 
-		this.each(function() {
-			var form = this;
+		this.each( function () {
+			var form  = this;
 			var $form = $( this );
 
 			// No validator
-			if( !  $.data( form , validator.settings.validator ) ) {
+			if ( !$.data( form, validator.settings.validator ) ) {
 				// Do a deep copy of the options - http://api.jquery.com/jQuery.extend/
-				var settings = $.extend(true, {}, validator.defaults, $.data( form ), options );
+				var settings           = $.extend( true, {}, validator.defaults, $.data( form ), options );
 				var framework_settings = settings.framework;
 
 				// init framework options from data- tags
 				// WARNING: data tag options have priority
-				$.each( validator.settings.framework, function( index, tag_name ){
+				$.each( validator.settings.framework, function ( index, tag_name ) {
 					var value = $form.data( tag_name );
-					if( undefined !== value ) {
+					if ( undefined !== value ) {
 						framework_settings[ index ] = value;
 					}
-				});
+				} );
 
 				// get framework object
 				var framework = $.extend( {}, default_frameworks[ settings.framework.id ] );
@@ -34,13 +39,13 @@ define([],function(){
 				settings.framework = framework;
 
 				// Also save the instance so it can be accessed later to use methods/properties etc
-				$.data( form, validator.settings.validator, new Validator(form, settings) );
+				$.data( form, validator.settings.validator, new Validator( form, settings ) );
 			}
 
-		});
+		} );
 
-		if( this.length === 1 )
-			return $.data( this[0] , $.fn.validator.settings.validator );
+		if ( this.length === 1 )
+			return $.data( this[ 0 ], $.fn.validator.settings.validator );
 
 		return this;
 	};
@@ -422,6 +427,14 @@ define([],function(){
 					$feedback.addClass( feedback.success );
 					$group.addClass( 'has-success' );
 				}
+			},
+
+			onFormInvalid: function(validator, errors) {
+				var form = validator.getForm(), Event = this.settings.events;
+			},
+
+			getName: function() {
+				return 'bootstrap';
 			}
 		},
 		plain: {
@@ -450,6 +463,10 @@ define([],function(){
 					$errors.empty();
 
 				$element.removeClass('error');
+			},
+
+			getName: function() {
+				return 'default';
 			}
 		}
 	};
@@ -532,7 +549,42 @@ define([],function(){
 			// First full form validation has been run
 			_this.is_first_validation = false;
 
+			var is_valid = form_errors.length === 0;
+			// trigger form invalid event
+			var form = _this.getForm();
+
+			if(!is_valid) {
+				// run framework specific onFormInvalid
+				if(_this.framework.onFormInvalid) {
+					_this.framework.onFormInvalid(_this, form_errors);
+				}
+			}
+
+			$(form).trigger(is_valid ? Event.VALID : Event.INVALID);
+
 			return this;
+		},
+
+		/**
+		 * Get array of invalid elements and errors messages
+		 * @returns {Array}
+		 */
+		getErrors: function() {
+			var _this = this, attributes = _this.settings.attribute_names;
+
+			var $elements = _this.getInvalidElements();
+			var errors = [];
+
+			$elements.each(function(i, el){
+				var errs = $(el).data( attributes.errors );
+
+				errors.push({
+					el: el,
+					errors: errs
+				});
+			});
+
+			return errors;
 		},
 
 		hasErrors: function() {
@@ -549,6 +601,10 @@ define([],function(){
 			$elements.each(function(){
 				_this.framework.clearFieldErrors( this );
 			});
+		},
+
+		getForm: function() {
+			return this.form;
 		},
 
 		validateField: function( element ) {
