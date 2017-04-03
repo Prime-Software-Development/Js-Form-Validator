@@ -596,7 +596,7 @@ define([],function(){
 		resetForm: function() {
 			var _this = this;
 			var selector = _this.settings.selectors;
-			var $elements = _this.$form.find( selector.elements );
+			var $elements = _this.$form.find( selector.elements.join(',') ).not('button');
 
 			$elements.each(function(){
 				_this.framework.clearFieldErrors( this );
