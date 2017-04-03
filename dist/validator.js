@@ -1,7 +1,7 @@
 /*!
  * Validator Jquery JavaScript Library plugin v0.0.0
  *
- * Date: 2017-03-23T12:00Z
+ * Date: 2017-04-03T12:38Z
  */
 
 define(['jquery'], function($) {
@@ -358,7 +358,7 @@ var Event = {
 		range      : $.fn.validator.format( "Please enter a value between {0} and {1}." ),
 		max        : $.fn.validator.format( "Please enter a value less than or equal to {0}." ),
 		min        : $.fn.validator.format( "Please enter a value greater than or equal to {0}." ),
-		typeahead_required  : "Please select an option from the dropdown list.",
+		typeahead_required  : "Please select an option from the drop down.",
 	};
 
 	/* END plugin */
@@ -602,7 +602,7 @@ var Event = {
 		resetForm: function() {
 			var _this = this;
 			var selector = _this.settings.selectors;
-			var $elements = _this.$form.find( selector.elements );
+			var $elements = _this.$form.find( selector.elements.join(',') ).not('button');
 
 			$elements.each(function(){
 				_this.framework.clearFieldErrors( this );
