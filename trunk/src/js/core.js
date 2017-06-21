@@ -319,9 +319,12 @@ define([],function(){
 			email   : { email: true },
 			date    : { date: true },
 			url     : { url: true },
-			min     : { minlength: true },
+			min     : { min: true },
+			max     : { max: true },
 			number  : { number: true },
-			time    : { time: true }
+			time    : { time: true },
+			minlength: { minlength: true },
+			maxlength: { maxlength: true }
 		},
 		// data-rule-{name}
 		data : {
@@ -329,12 +332,15 @@ define([],function(){
 			email   : { email: true },
 			date    : { date: true },
 			dateISO : { dateISO: true },
-			min     : { minlength: 10 },
+			min     : { min: true },
+			max     : { max: true },
 			number  : { number: true },
 			integer : { integer: true },
 			mobileUK: { mobileUK: true },
 			time    : { time: true },
-			digits  : { digits: true }
+			digits  : { digits: true },
+			minlength: { minlength: true },
+			maxlength: { maxlength: true }
 		}
 	};
 	$.fn.validator.messages = {
