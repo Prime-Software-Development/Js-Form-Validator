@@ -1339,6 +1339,17 @@ var Event = {
 		return this.optional(element) || /^((0?[1-9]|1[012])(:[0-5]\d){1,2}(\ ?[AP]M))$/i.test(value);
 	}, "Please enter a valid time in 12-hour am/pm format");
 
+	$.fn.validator.addMethod("timeRange", function(value, element) {
+
+		var result = true;
+		var earliest_time = $(element ).data('earliest-time');
+		var latest_time = $(element ).data('latest-time');
+		if ( value < earliest_time || value > latest_time ) {
+			result = false;
+		}
+
+		return this.optional(element) || result;
+	}, "Please enter a valid time" );
 
 
 
